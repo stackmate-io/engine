@@ -1,14 +1,12 @@
 {
   "name": "@stackmate/engine",
   "version": "0.1.0",
+  "description": "Stackmate is the easiest way to manage Infrastructure as Code via Terraform and a super minimal YAML file",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stackmate-io/engine"
+    "url": "git+https://github.com/stackmate-io/engine.git"
   },
-  "author": {
-    "name": "Fotis Alexandrou (@falexandrou)",
-    "url": "https://www.falexandrou.com"
-  },
+  "author": "Fotis Alexandrou (@falexandrou)",
   "bugs": {
     "url": "https://github.com/stackmate-io/engine/issues"
   },
@@ -80,5 +78,9 @@
     "test:ci": "npm run lint && npm run test",
     "test:all": "npm run test tests/**/*.test.ts"
   },
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  }
 }
