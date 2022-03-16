@@ -1,15 +1,15 @@
 /* eslint-disable consistent-return */
 import validate from 'validate.js';
-import { existsSync as fileExistsSync } from 'fs';
+import { existsSync as pathExistsSync, lstatSync } from 'fs';
 import { difference, flatten, isArray, isEmpty, isObject, isString, uniq } from 'lodash';
 
-import Profile from '@stackmate/core/profile';
-import { PROVIDER, SERVICE_TYPE } from '@stackmate/constants';
-import { isKeySubset } from '@stackmate/lib/helpers';
+import Profile from '@stackmate/engine/core/profile';
+import { PROVIDER, SERVICE_TYPE } from '@stackmate/engine/constants';
+import { isKeySubset } from '@stackmate/engine/lib/helpers';
 import {
   CredentialsObject, ProjectDefaults, ProviderChoice, ServiceTypeChoice,
   StagesNormalizedAttributes, StateConfiguration, VaultConfiguration,
-} from '@stackmate/types';
+} from '@stackmate/engine/types';
 
 namespace Validator {
   /**
@@ -178,12 +178,22 @@ namespace Validator {
   /**
    * Validates the existence of a file
    *
-   * @param {String} fileName the name of the file to check whether exists or not
+   * @param {String} path the name of the file to check whether exists or not
    * @returns {String}
    */
-  export const validateFileExistence = (fileName: string) => {
-    if (!fileExistsSync(fileName)) {
-      return `File ${fileName} does not exist`;
+  export const validatePathExistence = (
+    path: string, { requireDirectory = false, required = true } = {},
+  ) => {
+    if (required && !path) {
+      return 'You have to provide a valid file path';
+    }
+
+    if (!pathExistsSync(path)) {
+      return `Path ${path} does not exist`;
+    }
+
+    if (requireDirectory && !lstatSync(path).isDirectory()) {
+      return `Path ${path} is not a directory`;
     }
   };
 

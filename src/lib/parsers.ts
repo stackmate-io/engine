@@ -1,7 +1,7 @@
 import { resolve as resolvePath } from 'path';
 import { isArray, isNil, isNumber, isObject, isString, omitBy, uniq } from 'lodash';
 
-import { CredentialsObject } from '@stackmate/types';
+import { CredentialsObject } from '@stackmate/engine/types';
 
 namespace Parser {
   /**
@@ -83,7 +83,7 @@ namespace Parser {
    * @param {String} path the path to parse
    * @returns {String} the parsed and resolved path
    */
-  export const parseFileName = (path: string) => (
+  export const parsePath = (path: string) => (
     resolvePath(path.trim())
   );
 }

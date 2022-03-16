@@ -1,10 +1,11 @@
 import { Memoize } from 'typescript-memoize';
 import { pick, uniqBy } from 'lodash';
 
-import Project from '@stackmate/core/project';
-import Provisioner from '@stackmate/core/provisioner';
-import ServicesRegistry from '@stackmate/core/registry';
-import { SERVICE_TYPE } from '@stackmate/constants';
+import Project from '@stackmate/engine/core/project';
+import Provisioner from '@stackmate/engine/core/provisioner';
+import ServicesRegistry from '@stackmate/engine/core/registry';
+import { SERVICE_TYPE } from '@stackmate/engine/constants';
+import { OperationOptions } from '@stackmate/engine/types';
 
 abstract class Operation {
   /**
@@ -25,7 +26,7 @@ abstract class Operation {
   /**
    * @var {Object} options any additional options for the operation
    */
-  protected readonly options: object = {};
+  protected readonly options: OperationOptions = {};
 
   /**
    * @constructor
@@ -33,11 +34,13 @@ abstract class Operation {
    * @param {String} stageName the name of the stage we're provisioning
    * @param {Object} options any additional options for the operation
    */
-  constructor(project: Project, stageName: string, options: object = {}) {
+  constructor(project: Project, stageName: string, options: OperationOptions = {}) {
     this.project = project;
     this.stageName = stageName;
     this.options = options;
-    this.provisioner = new Provisioner(project.name, stageName);
+
+    const { outputPath } = this.options;
+    this.provisioner = new Provisioner(project.name, stageName, outputPath);
   }
 
   /**
@@ -77,9 +80,10 @@ abstract class Operation {
     this: new (...args: any[]) => T,
     projectFile: string,
     stageName: string,
+    options: object = {},
   ): Promise<T> {
     const project = await Project.load(projectFile);
-    return new this(project, stageName);
+    return new this(project, stageName, options);
   }
 }
 

@@ -1,5 +1,5 @@
-import { CloudService } from '@stackmate/interfaces';
-import { PROVIDER, SERVICE_TYPE, STORAGE } from '@stackmate/constants';
+import { CloudService } from '@stackmate/engine/interfaces';
+import { PROVIDER, SERVICE_TYPE, STORAGE } from '@stackmate/engine/constants';
 
 // Utility types
 export type ConstructorOf<T> = Function & { new(...args: any[]): T };
@@ -184,3 +184,11 @@ export type VaultCredentialOptions = {
   special?: Boolean;
   exclude?: string[],
 };
+
+export type OperationOptions = {
+  outputPath?: string;
+};
+
+export type PrepareOperationOptions = OperationOptions & {
+  statePath?: string;
+}

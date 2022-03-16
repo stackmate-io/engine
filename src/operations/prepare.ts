@@ -1,17 +1,24 @@
 import { pick } from 'lodash';
 import { Memoize } from 'typescript-memoize';
 
-import Operation from '@stackmate/core/operation';
-import ServicesRegistry from '@stackmate/core/registry';
-import { CloudService } from '@stackmate/interfaces';
-import { PROVIDER, SERVICE_TYPE } from '@stackmate/constants';
+import Operation from '@stackmate/engine/core/operation';
+import ServicesRegistry from '@stackmate/engine/core/registry';
+import { CloudService } from '@stackmate/engine/interfaces';
+import { PROVIDER, SERVICE_TYPE } from '@stackmate/engine/constants';
+import { PrepareOperationOptions } from '../types';
 
 class PrepareOperation extends Operation {
+  /**
+   * @var {Object} options any additional options for the operation
+   */
+  options: PrepareOperationOptions = {};
+
   /**
    * @returns {CloudService} the local state service
    */
   @Memoize() get localState(): CloudService {
-    const attrs = { type: SERVICE_TYPE.STATE, provider: PROVIDER.LOCAL };
+    const { statePath } = this.options;
+    const attrs = { type: SERVICE_TYPE.STATE, provider: PROVIDER.LOCAL, directory: statePath };
     return ServicesRegistry.get(pick(attrs, 'type', 'provider')).factory(attrs);
   }
 

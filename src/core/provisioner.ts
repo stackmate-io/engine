@@ -1,8 +1,8 @@
-import App from '@stackmate/lib/terraform/app';
-import PriorityQueue from '@stackmate/lib/queue';
-import { CloudApp, CloudService, CloudStack } from '@stackmate/interfaces';
-import { SERVICE_TYPE } from '@stackmate/constants';
-import { ServiceTypeChoice } from '@stackmate/types';
+import App from '@stackmate/engine/lib/terraform/app';
+import PriorityQueue from '@stackmate/engine/lib/queue';
+import { CloudApp, CloudService, CloudStack } from '@stackmate/engine/interfaces';
+import { SERVICE_TYPE } from '@stackmate/engine/constants';
+import { ServiceTypeChoice } from '@stackmate/engine/types';
 
 class Provisioner {
   /**
@@ -40,8 +40,8 @@ class Provisioner {
    * @param {String} appName the application's name
    * @param {String} stackName the stack's name
    */
-  constructor(appName: string, stageName: string) {
-    this.app = new App(appName);
+  constructor(appName: string, stageName: string, outputPath?: string) {
+    this.app = new App(appName, { outdir: outputPath });
     this.stack = this.app.stack(stageName);
   }
 
