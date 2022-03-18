@@ -15,13 +15,15 @@ export const PROVIDER = {
 
 export const SERVICE_TYPE = {
   CDN: 'cdn',
-  DATABASE: 'database',
   DNS: 'dns',
   ELASTIC_STORAGE: 'elasticstorage',
   INSTANCE: 'instance',
   LOAD_BALANCER: 'loadbalancer',
   MEMCACHED: 'memcached',
   MAILER: 'mailer',
+  MARIADB: 'mariadb',
+  MYSQL: 'mysql',
+  POSTGRESQL: 'postgresql',
   PROVIDER: 'provider',
   REDIS: 'redis',
   SSL: 'ssl',

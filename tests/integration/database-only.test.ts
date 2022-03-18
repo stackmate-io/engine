@@ -23,21 +23,18 @@ const projectConfig = normalizeProject({
   stages: {
     production: {
       mysqlDatabase: {
-        type: SERVICE_TYPE.DATABASE,
+        type: SERVICE_TYPE.MYSQL,
         size: DEFAULT_RDS_INSTANCE_SIZE,
         profile: 'production',
         storage: 30,
-        version: '8.0',
-        engine: 'mysql',
-        port: 3306,
       },
     },
   },
 });
 
 describe('Database only project', () => {
-  it('registers the production stage for the project', async () => {
-    const { scope } = await deployProject(projectConfig);
+  it('registers the production stage for the project', () => {
+    const { scope } = deployProject(projectConfig);
 
     expect(scope).toHaveResourceWithProperties(Vpc, {
       cidr_block: '10.0.0.0/16',
